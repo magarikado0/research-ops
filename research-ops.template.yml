@@ -1,0 +1,25 @@
+# research-ops runtime configuration
+# Copy this file to the target repository root as research-ops.yml.
+version: 1
+
+# The installer replaces these managed values.
+package_version: "2.0.0"
+profile: general
+
+# The document layer is logically one system and may have multiple physical roots.
+document_roots:
+  - id: shared
+    path: docs
+    scope: project
+    include: "**/*.md"
+
+# Register existing append-only activity logs here. Do not guess their paths.
+# Example:
+# activity_logs:
+#   - id: main
+#     kind: experiment
+#     path: activities/log.jsonl
+#     format: jsonl
+#     id_field: record_id
+#     timestamp_field: recorded_at
+activity_logs: []

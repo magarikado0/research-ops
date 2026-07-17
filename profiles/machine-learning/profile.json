@@ -1,0 +1,5 @@
+{
+  "name": "machine-learning",
+  "display_name": "Machine Learning",
+  "description": "予測・分類・生成モデルなどの機械学習研究向け。データ、評価、リーク、ベースラインを扱う。"
+}

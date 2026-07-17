@@ -1,22 +1,30 @@
 # Claude Code アダプタ — 導入
 
-研究リポジトリに対して、一度だけ以下を行う(手作業 or エージェントに依頼)。
+標準の導入方法は、リポジトリ直下の対話式インストーラである。
 
-1. `OPERATIONS.md` を研究リポジトリの直下にコピーする。
-2. `STATE.template/` の中身を研究リポジトリの `STATE/` にコピーする。
-   ただし **最初は `README.md` と `decisions.md` だけを残す**(OPERATIONS.md §4 最小から)。
-   `motivation.md` 等は必要になったときに雛形から足す。
-3. `docs.template/README.md` を `docs/README.md` にコピーする(サブフォルダは書くものが出たとき作る)。
-4. この `skills/` 配下を研究リポジトリの `.claude/skills/` にコピーする。
-5. 研究リポジトリの `CLAUDE.md` に次を追記する:
+```sh
+python install.py
+```
 
-   ```
-   ## 研究運用
-   - 作業開始前に STATE/README.md を読むこと。運用の正典は OPERATIONS.md。
-   - 区切りで /state-sync、方向性の相談は /panel、月1で /state-audit。
-   ```
+導入先、Claude Code、研究プロファイルを順番に選び、変更計画を確認してから適用する。
+非対話環境では次のように指定する。
 
-6. (任意)セッション終了時に未同期なら同期を促すフックを `.claude/settings.json` の Stop フックに追加する。
-7. (任意)日次照合を scheduled task として登録する(/state-sync を1日1回)。
+```sh
+python install.py --target ../my-research --adapter claude-code --profile general --yes
+```
+
+確認だけなら `--dry-run` を付ける。
+既存の `STATE/` と `docs/` は上書きされず、任意STATE雛形は
+`.research-ops/templates/` に保存される。
+サブテーマ固有の結果や考察が別フォルダにある場合は、対話中に追加文書ルートとして入力する。
+非対話形式では `--document-root individual --document-root population` のように繰り返し指定する。
 
 以後、`/state-sync` `/state-audit` `/panel` で起動できる。ロジックの正は常に `OPERATIONS.md`。
+
+## 手動導入
+
+インストーラを使えない場合は、その `--dry-run` 出力を配置一覧として使う。
+最低限、汎用コア、選んだ `profiles/<name>/PROFILE.md`、`claude-code/skills/`、
+`CLAUDE.snippet.md` を導入する。
+
+Stopフックや日次タスクを追加する場合も、SYNCはdry-runのまま実行する。

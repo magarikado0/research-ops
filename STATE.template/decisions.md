@@ -2,9 +2,12 @@
 目的: 方向を決めた/変えた記録。追記のみ、書き換え・削除をしない。
 「なぜその道を選び、どの道を捨てたか」はコードにもログにも残らないのでここに残す。
 PANEL(方向性審議)の結論もここに落とす。docs の write-once な結論を覆したときは、
-該当 docs に errata の一行(「※ decisions.md YYYY-MM-DD で棄却」)も付ける。
+  該当 docs に errata の一行(「※ decisions.md YYYY-MM-DD で棄却」)も付ける。
+  AIによるPANELの統合結果は決定ではない。人間が承認した場合だけ追記し、承認者と
+  docs/reviews/ のパネル記録を明記する。
 -->
 
 # 決定ログ(追記のみ)
 
-- YYYY-MM-DD: <決めたこと>。理由: <...>。捨てた案: <...>
+- YYYY-MM-DD: <決めたこと>。理由: <...>。捨てた案: <...>。
+  承認: <人間の承認者>。根拠: `../docs/reviews/panel-YYYYMMDD-topic.md`
