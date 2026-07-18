@@ -19,7 +19,8 @@ python install.py --target ../my-research --adapter claude-code --profile genera
 サブテーマ固有の結果や考察が別フォルダにある場合は、対話中に追加文書ルートとして入力する。
 非対話形式では `--document-root individual --document-root population` のように繰り返し指定する。
 
-以後、`/state-sync` `/state-audit` `/panel` で起動できる。ロジックの正は常に `OPERATIONS.md`。
+以後、`/docs-sync` `/state-sync` `/state-audit` `/panel` で起動できる。
+ロジックの正は常に `OPERATIONS.md`。
 
 ## 手動導入
 
@@ -27,4 +28,4 @@ python install.py --target ../my-research --adapter claude-code --profile genera
 最低限、汎用コア、選んだ `profiles/<name>/PROFILE.md`、`claude-code/skills/`、
 `CLAUDE.snippet.md` を導入する。
 
-Stopフックや日次タスクを追加する場合も、SYNCはdry-runのまま実行する。
+Stopフックや日次タスクを追加する場合も、DOCS SYNCとSTATE SYNCはdry-runのまま実行する。

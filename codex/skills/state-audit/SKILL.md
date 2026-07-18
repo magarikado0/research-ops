@@ -5,7 +5,7 @@ description: STATE/ だけで研究文脈が伝わるかを、現在の会話か
 
 # state-audit
 
-リポジトリ直下の `OPERATIONS.md` の §7 に従う。
+リポジトリ直下の `OPERATIONS.md` の §8 に従う。
 
 1. 現在の会話履歴を渡さない独立サブエージェントを起動し、`RESEARCH_PROFILE.md` と `STATE/` 以外を読まないよう明示する。
 2. その読み手に、目的・現在地・アプローチ、次の一手と理由、不明点を回答させる。

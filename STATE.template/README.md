@@ -2,18 +2,20 @@
 目的: このフォルダの目次であり、同時に最小STATE(現在地の要約)を兼ねる。
 初見の協力者が、まずこの1枚だけで研究の立ち位置と次の一手を掴めること。
 README しか読まれなくても致命傷にならないよう、要約はここに直に書く。
-更新はSYNC手続きが担当する(登録済み文書ルート → STATE の一方向蒸留)。
+完全版文書はDOCS SYNC、文脈パックはSTATE SYNCが更新する。
 -->
 
 ---
-last_sync_at: ""
-last_sync_commit: ""
+last_state_sync_at: ""
+last_state_sync_commit: ""
+last_docs_sync_at: ""
+last_docs_sync_commit: ""
 activity_log_cursors: {}
 ---
 
 # STATE — <プロジェクト名>
 
-同期カーソルは冒頭のYAMLで管理する。初回SYNCまでは空のままとし、推測で埋めない。
+同期カーソルは冒頭のYAMLで管理する。各同期の初回実行までは空のままとし、推測で埋めない。
 
 ## 現在の問い・方向性
 <いま何を明らかにしようとしていて、どの方向を有望と見ているか。1段落>
@@ -37,5 +39,5 @@ activity_log_cursors: {}
 
 <!--
 motivation.md / related-work.md / design.md / materials.md などの任意ファイルは、
-実際に追加したSYNCでここへ掲載する。存在しないファイルを先回りして載せない。
+実際に追加したSTATE SYNCでここへ掲載する。存在しないファイルを先回りして載せない。
 -->

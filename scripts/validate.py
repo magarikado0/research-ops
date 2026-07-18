@@ -110,12 +110,18 @@ def validate_package(root: Path, validator: Validator) -> None:
                     "deprecated codex/prompts directory must not exist")
 
     for adapter in ("codex", "claude-code"):
-        for skill in ("state-sync", "state-audit", "panel"):
+        for skill in ("docs-sync", "state-sync", "state-audit", "panel"):
             validator.check_skill(root / adapter / "skills" / skill / "SKILL.md")
 
     operations = read(root / "OPERATIONS.md")
-    validator.check("last_sync_commit" in operations,
-                    "OPERATIONS.md does not define a commit cursor")
+    validator.check("last_state_sync_commit" in operations,
+                    "OPERATIONS.md does not define a STATE SYNC commit cursor")
+    validator.check("last_docs_sync_commit" in operations,
+                    "OPERATIONS.md does not define a DOCS SYNC commit cursor")
+    validator.check("## 6. 手続き: DOCS SYNC" in operations,
+                    "OPERATIONS.md does not define the DOCS SYNC procedure")
+    validator.check("## 7. 手続き: STATE SYNC" in operations,
+                    "OPERATIONS.md does not define the STATE SYNC procedure")
     validator.check("research-ops.yml" in operations,
                     "OPERATIONS.md does not define activity-log discovery")
     validator.check("document_roots" in operations,
@@ -139,7 +145,10 @@ def validate_package(root: Path, validator: Validator) -> None:
                     "Codex primary install still uses deprecated custom prompts")
 
     state_readme = read(root / "STATE.template/README.md")
-    for key in ("last_sync_at", "last_sync_commit", "activity_log_cursors"):
+    for key in (
+        "last_state_sync_at", "last_state_sync_commit",
+        "last_docs_sync_at", "last_docs_sync_commit", "activity_log_cursors",
+    ):
         validator.check(key in state_readme, f"STATE README lacks cursor: {key}")
 
     for profile_name in (
@@ -189,7 +198,10 @@ def validate_installed(root: Path, validator: Validator, base_ref: str | None) -
     ])
     if (root / "STATE/README.md").is_file():
         state_readme = read(root / "STATE/README.md")
-        for key in ("last_sync_at", "last_sync_commit", "activity_log_cursors"):
+        for key in (
+            "last_state_sync_at", "last_state_sync_commit",
+            "last_docs_sync_at", "last_docs_sync_commit", "activity_log_cursors",
+        ):
             validator.check(key in state_readme, f"STATE/README.md lacks cursor: {key}")
         validator.check("<プロジェクト名>" not in state_readme,
                         "STATE/README.md still contains the project-name placeholder")

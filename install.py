@@ -213,6 +213,32 @@ def render_config(existing: str | None, version: str, profile: str,
     return replace_yaml_block(text, "document_roots", render_document_roots(document_roots))
 
 
+def migrate_state_readme(text: str) -> str:
+    migrated = re.sub(r"^last_sync_at:", "last_state_sync_at:", text, flags=re.MULTILINE)
+    migrated = re.sub(r"^last_sync_commit:", "last_state_sync_commit:", migrated,
+                      flags=re.MULTILINE)
+    migrated = re.sub(r"^experiment_log_cursors:", "activity_log_cursors:", migrated,
+                      flags=re.MULTILINE)
+    required = {
+        "last_state_sync_at": '""',
+        "last_state_sync_commit": '""',
+        "last_docs_sync_at": '""',
+        "last_docs_sync_commit": '""',
+        "activity_log_cursors": "{}",
+    }
+    frontmatter = re.match(r"\A---\s*\n(?P<body>.*?)\n---\s*\n", migrated, flags=re.DOTALL)
+    if not frontmatter:
+        header = "---\n" + "\n".join(f"{key}: {value}" for key, value in required.items()) + "\n---\n\n"
+        return header + migrated.lstrip()
+    body = frontmatter.group("body")
+    missing_lines = [f"{key}: {value}" for key, value in required.items()
+                     if not re.search(rf"^{re.escape(key)}:", body, flags=re.MULTILINE)]
+    if not missing_lines:
+        return migrated
+    new_body = body.rstrip() + "\n" + "\n".join(missing_lines)
+    return migrated[:frontmatter.start("body")] + new_body + migrated[frontmatter.end("body"):]
+
+
 def managed_block(body: str) -> str:
     return f"{BEGIN_MARKER}\n{body.strip()}\n{END_MARKER}"
 
@@ -253,9 +279,7 @@ def build_actions(target: Path, adapters: list[str], profile: Profile,
 
     state_readme_path = target / "STATE/README.md"
     if state_readme_path.is_file():
-        migrated = read_text(state_readme_path).replace(
-            "experiment_log_cursors:", "activity_log_cursors:"
-        )
+        migrated = migrate_state_readme(read_text(state_readme_path))
         actions.append(Action(Path("STATE/README.md"), migrated, kind="schema"))
     else:
         state_readme = read_text(ROOT / "STATE.template/README.md").replace(

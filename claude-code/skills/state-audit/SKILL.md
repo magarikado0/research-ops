@@ -5,7 +5,7 @@ description: STATE/ だけで研究の文脈が伝わるかを実測する監査
 
 # state-audit
 
-リポジトリ直下の `OPERATIONS.md` の **§7(AUDIT 手続き)** に従う。要点:
+リポジトリ直下の `OPERATIONS.md` の **§8(AUDIT手続き)** に従う。要点:
 
 1. 現在の会話履歴を渡さない独立サブエージェントに **RESEARCH_PROFILE.md と STATE/ だけ**
    (docs や git を見せない)を読ませ、

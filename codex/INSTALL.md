@@ -19,7 +19,7 @@ python install.py --target ../my-research --adapter codex --profile general --ye
 サブテーマ固有の結果や考察が別フォルダにある場合は、対話中に追加文書ルートとして入力する。
 非対話形式では `--document-root individual --document-root population` のように繰り返し指定する。
 
-以後、Codex 上で `$state-sync` `$state-audit` `$panel` として起動できる。
+以後、Codex上で `$docs-sync` `$state-sync` `$state-audit` `$panel` として起動できる。
 
 アダプタが使えない環境(素のチャット等)でも、各 `SKILL.md` の本文をコピーして貼れば動く
 (OPERATIONS.md §5 階段0)。ロジックの正は常に `OPERATIONS.md`。

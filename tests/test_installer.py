@@ -59,7 +59,9 @@ class InstallerTests(unittest.TestCase):
         first = self.run_installer(*arguments)
         self.assertEqual(first.returncode, 0, first.stderr)
         self.assertTrue((self.target / ".agents/skills/state-sync/SKILL.md").is_file())
+        self.assertTrue((self.target / ".agents/skills/docs-sync/SKILL.md").is_file())
         self.assertTrue((self.target / ".claude/skills/panel/SKILL.md").is_file())
+        self.assertTrue((self.target / ".claude/skills/docs-sync/SKILL.md").is_file())
         self.assertTrue((self.target / "RESEARCH_PROFILE.md").is_file())
         self.assertEqual((self.target / "AGENTS.md").read_text(encoding="utf-8").count(
             "<!-- research-ops:begin -->"), 1)
@@ -185,7 +187,8 @@ class InstallerTests(unittest.TestCase):
     def test_migrates_legacy_log_keys_without_replacing_state(self) -> None:
         (self.target / "STATE").mkdir()
         (self.target / "STATE/README.md").write_text(
-            "---\nlast_sync_at: \"\"\nlast_sync_commit: \"\"\n"
+            "---\nlast_sync_at: \"2026-07-01T12:00:00+09:00\"\n"
+            "last_sync_commit: \"abc123\"\n"
             "experiment_log_cursors: {}\n---\n\n# Existing project\n",
             encoding="utf-8",
         )
@@ -203,6 +206,13 @@ class InstallerTests(unittest.TestCase):
         state = (self.target / "STATE/README.md").read_text(encoding="utf-8")
         config = (self.target / "research-ops.yml").read_text(encoding="utf-8")
         self.assertIn("activity_log_cursors", state)
+        self.assertIn("last_state_sync_at", state)
+        self.assertIn("last_state_sync_commit", state)
+        self.assertIn("last_docs_sync_at", state)
+        self.assertIn("last_docs_sync_commit", state)
+        self.assertNotIn("\nlast_sync_at:", state)
+        self.assertIn('last_state_sync_at: "2026-07-01T12:00:00+09:00"', state)
+        self.assertIn('last_state_sync_commit: "abc123"', state)
         self.assertIn("# Existing project", state)
         self.assertIn("activity_logs: []", config)
         self.assertIn("custom_setting: keep", config)
